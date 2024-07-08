@@ -1209,7 +1209,7 @@ function Details() {
                                         </span>
                                       </TableCell>
                                       <TableCell
-                                        className="text-xs uppercase tracking-wider"
+                                        className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
                                         {subRow.recute}|{" "}
