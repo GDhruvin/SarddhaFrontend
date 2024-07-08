@@ -326,6 +326,7 @@ function Dashboard() {
                 allowOutsideClick: false,
                 willClose: () => {
                   getUserList();
+                  handleGetTotalData();
                 },
               });
             } else {
@@ -357,12 +358,12 @@ function Dashboard() {
   const cardData = [
     { label: "Total Sarin", value: totals.totalsarin, color: "#8d637b" },
     { label: "Total Inclue", value: totals.totalinclue, color: "#5c6bc0" },
-    { label: "Total AQ", value: totals.totalaq, color: "#e91e63" },
     { label: "Total 4P", value: totals.totalfourp, color: "#9ccc65" },
-    { label: "Total Galexy 4P", value: totals.totalgalexy, color: "#dd8ddd" },
-    { label: "Total LS", value: totals.totalls, color: "#607d8b" },
     { label: "Total Markin", value: totals.totalmarkin, color: "#d08794" },
+    { label: "Total AQ", value: totals.totalaq, color: "#e91e63" },
+    { label: "Total LS", value: totals.totalls, color: "#607d8b" },
     { label: "Total Recute", value: totals.totalrecute, color: "#FFD700" },
+    { label: "Total Galexy 4P", value: totals.totalgalexy, color: "#dd8ddd" },
   ];
 
   return (

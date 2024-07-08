@@ -109,11 +109,11 @@ function Details() {
     { label: "Total Sarin", value: totals.totalsarin, color: "#8d637b" },
     { label: "Total Inclue", value: totals.totalinclue, color: "#5c6bc0" },
     { label: "Total 4P", value: totals.totalfourp, color: "#9ccc65" },
-    { label: "Total Galexy 4P", value: totals.totalgalexy, color: "#dd8ddd" },
-    { label: "Total Recute", value: totals.totalrecute, color: "#FFD700" },
     { label: "Total Markin", value: totals.totalmarkin, color: "#d08794" },
     { label: "Total AQ", value: totals.totalaq, color: "#e91e63" },
     { label: "Total LS", value: totals.totalls, color: "#607d8b" },
+    { label: "Total Recute", value: totals.totalrecute, color: "#FFD700" },
+    { label: "Total Galexy 4P", value: totals.totalgalexy, color: "#dd8ddd" },
   ];
   const [pricetotal, setPriceTotal] = useState({
     numbersarin: totals.totalsarin,
@@ -917,26 +917,6 @@ function Details() {
                         fontWeight: "bold",
                       }}
                     >
-                      GALAXY 4P
-                    </TableCell>
-                    <TableCell
-                      className="text-xs uppercase tracking-wider"
-                      sx={{
-                        textAlign: "center",
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      RECUTE
-                    </TableCell>
-                    <TableCell
-                      className="text-xs uppercase tracking-wider"
-                      sx={{
-                        textAlign: "center",
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
                       MARKIN
                     </TableCell>
                     <TableCell
@@ -958,6 +938,26 @@ function Details() {
                       }}
                     >
                       LS
+                    </TableCell>
+                    <TableCell
+                      className="text-xs uppercase tracking-wider"
+                      sx={{
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      RECUTE
+                    </TableCell>
+                    <TableCell
+                      className="text-xs uppercase tracking-wider"
+                      sx={{
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      GALAXY 4P
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -1015,18 +1015,6 @@ function Details() {
                           className="text-xs uppercase tracking-wider"
                           sx={{ textAlign: "center" }}
                         >
-                          {row.totalgalaxy4p ? row.totalgalaxy4p : "-"}
-                        </TableCell>
-                        <TableCell
-                          className="text-xs uppercase tracking-wider"
-                          sx={{ textAlign: "center" }}
-                        >
-                          {row.totalrecute ? row.totalrecute : "-"}
-                        </TableCell>
-                        <TableCell
-                          className="text-xs uppercase tracking-wider"
-                          sx={{ textAlign: "center" }}
-                        >
                           {row.totalmarkin ? row.totalmarkin : "-"}
                         </TableCell>
                         <TableCell
@@ -1040,6 +1028,18 @@ function Details() {
                           sx={{ textAlign: "center" }}
                         >
                           {row.totalls ? row.totalls : "-"}
+                        </TableCell>
+                        <TableCell
+                          className="text-xs uppercase tracking-wider"
+                          sx={{ textAlign: "center" }}
+                        >
+                          {row.totalrecute ? row.totalrecute : "-"}
+                        </TableCell>
+                        <TableCell
+                          className="text-xs uppercase tracking-wider"
+                          sx={{ textAlign: "center" }}
+                        >
+                          {row.totalgalaxy4p ? row.totalgalaxy4p : "-"}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -1107,26 +1107,6 @@ function Details() {
                                         fontWeight: "bold",
                                       }}
                                     >
-                                      Galaxy 4p
-                                    </TableCell>
-                                    <TableCell
-                                      className="text-xs uppercase tracking-wider"
-                                      sx={{
-                                        textAlign: "center",
-                                        color: "white",
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      Recute
-                                    </TableCell>
-                                    <TableCell
-                                      className="text-xs uppercase tracking-wider"
-                                      sx={{
-                                        textAlign: "center",
-                                        color: "white",
-                                        fontWeight: "bold",
-                                      }}
-                                    >
                                       Markin
                                     </TableCell>
                                     <TableCell
@@ -1148,6 +1128,26 @@ function Details() {
                                       }}
                                     >
                                       LS
+                                    </TableCell>
+                                    <TableCell
+                                      className="text-xs uppercase tracking-wider"
+                                      sx={{
+                                        textAlign: "center",
+                                        color: "white",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      Recute
+                                    </TableCell>
+                                    <TableCell
+                                      className="text-xs uppercase tracking-wider"
+                                      sx={{
+                                        textAlign: "center",
+                                        color: "white",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      Galaxy 4p
                                     </TableCell>
                                     {!lastMonth && (
                                       <TableCell
@@ -1200,24 +1200,6 @@ function Details() {
                                         </span>
                                       </TableCell>
                                       <TableCell
-                                        className="text-xs tracking-wider"
-                                        sx={{ textAlign: "center" }}
-                                      >
-                                        {subRow.galaxy4p}|{" "}
-                                        <span className="font-bold">
-                                          {subRow.galaxy4pNote}
-                                        </span>
-                                      </TableCell>
-                                      <TableCell
-                                        className="text-xs tracking-wider"
-                                        sx={{ textAlign: "center" }}
-                                      >
-                                        {subRow.recute}|{" "}
-                                        <span className="font-bold">
-                                          {subRow.recuteNote}
-                                        </span>
-                                      </TableCell>
-                                      <TableCell
                                         className="text-xs uppercase tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
@@ -1234,6 +1216,24 @@ function Details() {
                                         sx={{ textAlign: "center" }}
                                       >
                                         {subRow.ls}
+                                      </TableCell>
+                                      <TableCell
+                                        className="text-xs tracking-wider"
+                                        sx={{ textAlign: "center" }}
+                                      >
+                                        {subRow.recute}|{" "}
+                                        <span className="font-bold">
+                                          {subRow.recuteNote}
+                                        </span>
+                                      </TableCell>
+                                      <TableCell
+                                        className="text-xs tracking-wider"
+                                        sx={{ textAlign: "center" }}
+                                      >
+                                        {subRow.galaxy4p}|{" "}
+                                        <span className="font-bold">
+                                          {subRow.galaxy4pNote}
+                                        </span>
                                       </TableCell>
                                       {!lastMonth && (
                                         <TableCell
@@ -1393,33 +1393,6 @@ function Details() {
                   )}
                 />
                 <Controller
-                  name="galaxy4p"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P"
-                      fullWidth
-                      type="number"
-                      error={!!errors.galaxy4p}
-                      helperText={errors?.galaxy4p?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="galaxy4pNote"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P Note"
-                      fullWidth
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
                   name="recute"
                   control={control}
                   render={({ field }) => (
@@ -1441,6 +1414,33 @@ function Details() {
                     <TextField
                       {...field}
                       label="Recute Note"
+                      fullWidth
+                      variant="outlined"
+                    />
+                  )}
+                />
+                <Controller
+                  name="galaxy4p"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Galaxy 4P"
+                      fullWidth
+                      type="number"
+                      error={!!errors.galaxy4p}
+                      helperText={errors?.galaxy4p?.message}
+                      variant="outlined"
+                    />
+                  )}
+                />
+                <Controller
+                  name="galaxy4pNote"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Galaxy 4P Note"
                       fullWidth
                       variant="outlined"
                     />
@@ -1484,7 +1484,7 @@ function Details() {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="ls"
+                      label="LS"
                       fullWidth
                       type="number"
                       error={!!errors.ls}
@@ -1628,33 +1628,6 @@ function Details() {
                   )}
                 />
                 <Controller
-                  name="galaxy4p"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P"
-                      fullWidth
-                      type="number"
-                      error={!!errors.galaxy4p}
-                      helperText={errors?.galaxy4p?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="galaxy4pNote"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P Note"
-                      fullWidth
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
                   name="recute"
                   control={control}
                   render={({ field }) => (
@@ -1676,6 +1649,33 @@ function Details() {
                     <TextField
                       {...field}
                       label="Recute Note"
+                      fullWidth
+                      variant="outlined"
+                    />
+                  )}
+                />
+                <Controller
+                  name="galaxy4p"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Galaxy 4P"
+                      fullWidth
+                      type="number"
+                      error={!!errors.galaxy4p}
+                      helperText={errors?.galaxy4p?.message}
+                      variant="outlined"
+                    />
+                  )}
+                />
+                <Controller
+                  name="galaxy4pNote"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Galaxy 4P Note"
                       fullWidth
                       variant="outlined"
                     />
@@ -1719,7 +1719,7 @@ function Details() {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="ls"
+                      label="LS"
                       fullWidth
                       type="number"
                       error={!!errors.ls}
