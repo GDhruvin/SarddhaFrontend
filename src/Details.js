@@ -1176,7 +1176,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.sarin}|{" "}
+                                        {subRow.sarin}{" "}|{" "}
                                         <span className="font-bold">
                                           {subRow.sarinW}w
                                         </span>
@@ -1185,7 +1185,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.inclu}|{" "}
+                                        {subRow.inclu}{" "}|{" "}
                                         <span className="font-bold">
                                           {subRow.incluW}w
                                         </span>
@@ -1194,7 +1194,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.fourp}|{" "}
+                                        {subRow.fourp}{" "}|{" "}
                                         <span className="font-bold">
                                           {subRow.fourpNote}
                                         </span>
@@ -1221,7 +1221,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.recute}|{" "}
+                                        {subRow.recute}{" "}|{" "}
                                         <span className="font-bold">
                                           {subRow.recuteNote}
                                         </span>
@@ -1230,7 +1230,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.galaxy4p}|{" "}
+                                        {subRow.galaxy4p}{" "}|{" "}
                                         <span className="font-bold">
                                           {subRow.galaxy4pNote}
                                         </span>
