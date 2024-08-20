@@ -24,8 +24,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import Swal from "sweetalert2";
 import axios from "axios";
 import moment from "moment";
@@ -40,7 +38,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePDF from "./InvoicePDF";
 import { LoadingButton } from "@mui/lab";
-import { UpdateEntry, addNewEntry, enties, totalValue } from "./config/config";
+import { UpdateEntry, enties, totalValue } from "./config/config";
 
 const defaultValues = {
   sarin: "",
@@ -58,33 +56,16 @@ const defaultValues = {
   ls: "",
 };
 
-const schema = yup.object().shape({
-  sarin: yup.string().required("Sarin is Required"),
-  sarinW: yup.string().required("Sarin Weight is Required"),
-  inclu: yup.string().required("Inclu is Required"),
-  incluW: yup.string().required("Inclu Weight is Required"),
-  markin: yup.string().required("Markin is Required"),
-  aq: yup.string().required("AQ is Required"),
-  fourp: yup.string().required("4P is Required"),
-  galaxy4p: yup.string().required("Galaxy 4P is Required"),
-  recute: yup.string().required("Recute is Required"),
-  ls: yup.string().required("ls is Required"),
-});
-
 function Details() {
-  const { handleSubmit, control, formState, reset, setValue } = useForm({
+  const { handleSubmit, control, reset, setValue } = useForm({
     defaultValues,
     mode: "all",
-    resolver: yupResolver(schema),
   });
-  const { errors } = formState;
 
   const location = useLocation();
   const navigate = useNavigate();
   const data = location?.state;
 
-  console.log("data >", data);
-  const [openModal, setOpenModal] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
   const [lastMonth, setLastMonth] = useState(false);
@@ -391,19 +372,19 @@ function Details() {
     const mainData = {
       month: selectedMonth,
       date: selectedDate,
-      sarin: formData.sarin,
+      sarin: formData.sarin || 0,
       sarinW: formData.sarinW,
-      inclu: formData.inclu,
+      inclu: formData.inclu || 0,
       incluW: formData.incluW,
-      fourp: formData.fourp,
+      fourp: formData.fourp || 0,
       fourpNote: formData.fourpNote,
-      galaxy4p: formData.galaxy4p,
+      galaxy4p: formData.galaxy4p || 0,
       galaxy4pNote: formData.galaxy4pNote,
-      recute: formData.recute,
+      recute: formData.recute || 0,
       recuteNote: formData.recuteNote,
-      markin: formData.markin,
-      aq: formData.aq,
-      ls: formData.ls,
+      markin: formData.markin || 0,
+      aq: formData.aq || 0,
+      ls: formData.ls || 0,
     };
     Swal.fire({
       title: "Are you sure?",
@@ -437,7 +418,6 @@ function Details() {
                 allowOutsideClick: false,
                 willClose: () => {
                   reset();
-                  setOpenModal(false);
                   setOpenUpdate(false);
                   handleGetData(data);
                   setUpdateData(null);
@@ -507,80 +487,12 @@ function Details() {
     navigate("/");
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
   const handleCloseModal = () => {
-    setOpenModal(false);
     setOpenUpdate(false);
     setUpdateData(null);
     reset();
     setSelectedDate(moment().format("DD-MM-YYYY"));
     setSelectedMonth(moment().month() + 1);
-  };
-
-  const onAddSubmit = (formData) => {
-    const mainData = {
-      createdBy: data._id,
-      month: selectedMonth,
-      date: selectedDate,
-      sarin: formData.sarin,
-      sarinW: formData.sarinW,
-      inclu: formData.inclu,
-      incluW: formData.incluW,
-      fourp: formData.fourp,
-      fourpNote: formData.fourpNote,
-      galaxy4p: formData.galaxy4p,
-      galaxy4pNote: formData.galaxy4pNote,
-      recute: formData.recute,
-      recuteNote: formData.recuteNote,
-      markin: formData.markin,
-      aq: formData.aq,
-      ls: formData.ls,
-    };
-    setOpenModal(false);
-    Swal.fire({
-      title: "Loading",
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
-    axios({
-      method: "POST",
-      url: addNewEntry,
-      data: mainData,
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          Swal.close();
-          reset();
-          Swal.fire({
-            icon: "success",
-            text: response.data.message,
-            timer: 2000, // 2 seconds timer
-            showConfirmButton: false, // Hide the confirmation button
-            allowOutsideClick: false,
-            willClose: () => {
-              handleCloseModal();
-              handleGetData(data);
-              handleGetTotalData(data);
-            },
-          });
-        } else {
-          Swal.close();
-          Swal.fire({
-            icon: "error",
-            text: response.data.message,
-          });
-        }
-      })
-      .catch((_errors) => {
-        Swal.close();
-        Swal.fire({
-          icon: "error",
-          text: "Something goes wrong please try again..",
-        });
-      });
   };
 
   return (
@@ -625,7 +537,9 @@ function Details() {
                 startIcon={<AddIcon />}
                 color="success"
                 style={{ marginRight: "10px" }}
-                onClick={handleOpenModal}
+                onClick={() => {
+                  navigate("/form", { state: data });
+                }}
               >
                 ADD Entry
               </Button>
@@ -1176,7 +1090,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.sarin}{" "}|{" "}
+                                        {subRow.sarin} |{" "}
                                         <span className="font-bold">
                                           {subRow.sarinW}w
                                         </span>
@@ -1185,7 +1099,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.inclu}{" "}|{" "}
+                                        {subRow.inclu} |{" "}
                                         <span className="font-bold">
                                           {subRow.incluW}w
                                         </span>
@@ -1194,7 +1108,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.fourp}{" "}|{" "}
+                                        {subRow.fourp} |{" "}
                                         <span className="font-bold">
                                           {subRow.fourpNote}
                                         </span>
@@ -1221,7 +1135,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.recute}{" "}|{" "}
+                                        {subRow.recute} |{" "}
                                         <span className="font-bold">
                                           {subRow.recuteNote}
                                         </span>
@@ -1230,7 +1144,7 @@ function Details() {
                                         className="text-xs tracking-wider"
                                         sx={{ textAlign: "center" }}
                                       >
-                                        {subRow.galaxy4p}{" "}|{" "}
+                                        {subRow.galaxy4p} |{" "}
                                         <span className="font-bold">
                                           {subRow.galaxy4pNote}
                                         </span>
@@ -1274,241 +1188,6 @@ function Details() {
             </TableContainer>
           </div>
         )}
-        <Dialog open={openModal}>
-          <form onSubmit={handleSubmit(onAddSubmit)}>
-            <DialogContent>
-              <div className="bg-[#322f2f]">
-                <h2 className="text-2xl text-white font-bold text-center mb-4 p-1">
-                  Add New Entry
-                </h2>
-              </div>
-              <div className="mb-3">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Date"
-                    inputFormat="dd-MM-yyyy"
-                    mask="____-__-__"
-                    value={dayjs(
-                      moment(selectedDate, "DD-MM-YYYY").format("YYYY-MM-DD")
-                    )}
-                    onChange={handleChangeDate}
-                    renderInput={(params) => (
-                      <TextField className="datepickerCommon" {...params} />
-                    )}
-                    inputProps={{ readOnly: true }}
-                    maxDate={dayjs(moment().toDate())}
-                    minDate={dayjs(
-                      moment().subtract(2, "month").endOf("month").toDate()
-                    )}
-                  />
-                </LocalizationProvider>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <Controller
-                  name="sarin"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Sarin"
-                      fullWidth
-                      type="number"
-                      error={!!errors.sarin}
-                      helperText={errors?.sarin?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="sarinW"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Sarin Weight"
-                      type="number"
-                      fullWidth
-                      error={!!errors.sarinW}
-                      helperText={errors?.sarinW?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="inclu"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Inclu"
-                      fullWidth
-                      type="number"
-                      error={!!errors.inclu}
-                      helperText={errors?.inclu?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="incluW"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Inclu Weight"
-                      type="number"
-                      fullWidth
-                      error={!!errors.incluW}
-                      helperText={errors?.incluW?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="fourp"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="4P"
-                      fullWidth
-                      type="number"
-                      error={!!errors.fourp}
-                      helperText={errors?.fourp?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="fourpNote"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="4P Note"
-                      fullWidth
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="recute"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Recute"
-                      fullWidth
-                      type="number"
-                      error={!!errors.recute}
-                      helperText={errors?.recute?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="recuteNote"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Recute Note"
-                      fullWidth
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="galaxy4p"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P"
-                      fullWidth
-                      type="number"
-                      error={!!errors.galaxy4p}
-                      helperText={errors?.galaxy4p?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="galaxy4pNote"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Galaxy 4P Note"
-                      fullWidth
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-4 mt-3">
-                <Controller
-                  name="markin"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Markin"
-                      fullWidth
-                      type="number"
-                      error={!!errors.markin}
-                      helperText={errors?.markin?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="aq"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="AQ"
-                      fullWidth
-                      type="number"
-                      error={!!errors.aq}
-                      helperText={errors?.aq?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Controller
-                  name="ls"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="LS"
-                      fullWidth
-                      type="number"
-                      error={!!errors.ls}
-                      helperText={errors?.ls?.message}
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </div>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={handleCloseModal}
-              >
-                Cancel
-              </Button>
-              <Button variant="contained" color="primary" type="submit">
-                Save
-              </Button>
-            </DialogActions>
-          </form>
-        </Dialog>
 
         <Dialog open={openUpdate}>
           <form onSubmit={handleSubmit(updateEntry)}>
@@ -1549,8 +1228,6 @@ function Details() {
                       label="Sarin"
                       fullWidth
                       type="number"
-                      error={!!errors.sarin}
-                      helperText={errors?.sarin?.message}
                       variant="outlined"
                     />
                   )}
@@ -1564,8 +1241,6 @@ function Details() {
                       label="Sarin Weight"
                       type="number"
                       fullWidth
-                      error={!!errors.sarinW}
-                      helperText={errors?.sarinW?.message}
                       variant="outlined"
                     />
                   )}
@@ -1579,8 +1254,6 @@ function Details() {
                       label="Inclu"
                       fullWidth
                       type="number"
-                      error={!!errors.inclu}
-                      helperText={errors?.inclu?.message}
                       variant="outlined"
                     />
                   )}
@@ -1594,8 +1267,6 @@ function Details() {
                       label="Inclu Weight"
                       type="number"
                       fullWidth
-                      error={!!errors.incluW}
-                      helperText={errors?.incluW?.message}
                       variant="outlined"
                     />
                   )}
@@ -1609,8 +1280,6 @@ function Details() {
                       label="4P"
                       fullWidth
                       type="number"
-                      error={!!errors.fourp}
-                      helperText={errors?.fourp?.message}
                       variant="outlined"
                     />
                   )}
@@ -1636,8 +1305,6 @@ function Details() {
                       label="Recute"
                       fullWidth
                       type="number"
-                      error={!!errors.recute}
-                      helperText={errors?.recute?.message}
                       variant="outlined"
                     />
                   )}
@@ -1663,8 +1330,6 @@ function Details() {
                       label="Galaxy 4P"
                       fullWidth
                       type="number"
-                      error={!!errors.galaxy4p}
-                      helperText={errors?.galaxy4p?.message}
                       variant="outlined"
                     />
                   )}
@@ -1692,8 +1357,6 @@ function Details() {
                       label="Markin"
                       fullWidth
                       type="number"
-                      error={!!errors.markin}
-                      helperText={errors?.markin?.message}
                       variant="outlined"
                     />
                   )}
@@ -1707,8 +1370,6 @@ function Details() {
                       label="AQ"
                       fullWidth
                       type="number"
-                      error={!!errors.aq}
-                      helperText={errors?.aq?.message}
                       variant="outlined"
                     />
                   )}
@@ -1722,8 +1383,6 @@ function Details() {
                       label="LS"
                       fullWidth
                       type="number"
-                      error={!!errors.ls}
-                      helperText={errors?.ls?.message}
                       variant="outlined"
                     />
                   )}

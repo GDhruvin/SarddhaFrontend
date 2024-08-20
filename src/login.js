@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { TextField, Button, Paper } from "@mui/material";
 import Swal from "sweetalert2"; // Import SweetAlert
 import { useNavigate } from "react-router-dom";
+import { login } from "./config/config";
+import axios from "axios";
 
 function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -12,26 +14,49 @@ function AdminLogin() {
     navigate("/");
   }
   const handleLogin = () => {
-    // Simple hardcoded check for demonstration purposes
-    if (username === "Shraddha@1234" && password === "Shraddha@1234") {
-      localStorage.setItem("isLoggin", true);
-      Swal.fire({
-        icon: "success",
-        text: "Login Successful",
-        timer: 2000, // 2 seconds timer
-        showConfirmButton: false, // Hide the confirmation button
-        allowOutsideClick: false, // Disable outside click
-        willClose: () => {
-          navigate("/"); // Navigate to /dashboard
-        },
+    const mainData = {
+      username: username,
+      password: password,
+    };
+    Swal.fire({
+      title: "Loading",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+    axios({
+      method: "POST",
+      url: login,
+      data: mainData,
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          Swal.close();
+          Swal.fire({
+            icon: "success",
+            text: response.data.message,
+            timer: 2000, // 2 seconds timer
+            showConfirmButton: false, // Hide the confirmation button
+            allowOutsideClick: false,
+            willClose: () => {
+              localStorage.setItem("isLoggin", true);
+              navigate("/");
+            },
+          });
+        } else {
+          Swal.close();
+          Swal.fire({
+            icon: "error",
+            text: response.data.message,
+          });
+        }
+      })
+      .catch((_errors) => {
+        Swal.close();
+        Swal.fire({
+          icon: "error",
+          text: "Something goes wrong please try again..",
+        });
       });
-    } else {
-      Swal.fire({
-        icon: "error",
-        text: "Invalid username or password",
-        confirmButtonText: "OK",
-      });
-    }
   };
 
   return (

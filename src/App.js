@@ -10,6 +10,7 @@ import AdminLogin from "./login";
 import Dashboard from "./Dashboard";
 import Details from "./Details";
 import NotFound from "./NotFound";
+import Form from "./Form";
 
 const PublicRoutes = () => {
   let auth = localStorage.getItem("isLoggin");
@@ -31,6 +32,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/details" element={<Details />} />
+          <Route path="/form" element={<Form />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
