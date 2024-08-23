@@ -11,6 +11,7 @@ import Dashboard from "./Dashboard";
 import Details from "./Details";
 import NotFound from "./NotFound";
 import Form from "./Form";
+import ExcelEditor from "./ExcelEditor";
 
 const PublicRoutes = () => {
   let auth = localStorage.getItem("isLoggin");
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/details" element={<Details />} />
           <Route path="/form" element={<Form />} />
+          <Route path="/excel-editor" element={<ExcelEditor />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

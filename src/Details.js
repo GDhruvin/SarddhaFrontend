@@ -538,7 +538,7 @@ function Details() {
                 color="success"
                 style={{ marginRight: "10px" }}
                 onClick={() => {
-                  navigate("/form", { state: data });
+                  navigate("/excel-editor", { state: data });
                 }}
               >
                 ADD Entry

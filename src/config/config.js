@@ -1,4 +1,5 @@
-const BASE_URL = "https://sarddhabackend-2.onrender.com";
+// const BASE_URL = "https://sarddhabackend-2.onrender.com";
+const BASE_URL = "https://sarddhabackend.onrender.com";
 // const BASE_URL = "http://localhost:5000";
 const API_URL = BASE_URL + "/api/auth/";
 
@@ -12,3 +13,4 @@ export const totalValue = API_URL + "totalValue/";
 export const UpdateEntry = API_URL + "updateEntry/";
 export const addNewEntry = API_URL + "addNewEntry";
 export const getTotalValueByMonth = API_URL + "totalValueBymonth/";
+export const singleEnties = API_URL + "singleEnties/";

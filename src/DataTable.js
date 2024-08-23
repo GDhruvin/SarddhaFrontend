@@ -39,7 +39,6 @@ const DataTable = ({ formObj, data, handleRemove}) => {
       aq: formData.aq,
       ls: formData.ls,
     }));
-    console.log("entries", entries);
     Swal.fire({
       title: "Loading",
       allowOutsideClick: false,

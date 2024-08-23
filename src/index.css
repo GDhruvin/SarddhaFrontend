@@ -129,3 +129,8 @@ hr {
   max-height: 400px; /* Adjust this value as needed */
   overflow-y: auto;
 }
+.htbold {
+  font-weight: bold !important;
+  background-color: #478fcc !important;
+  font-size: 1rem;
+}

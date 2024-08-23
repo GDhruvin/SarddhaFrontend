@@ -72,8 +72,6 @@ function Form() {
     reset(defaultValues);
   };
 
-  console.log("formObj", formObj);
-
   const handleArrowKeyNavigation = (event) => {
     if (event.key === "Enter") {
       handleSubmit(onAddSubmit)();
