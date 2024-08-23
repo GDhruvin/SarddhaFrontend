@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import { HotTable } from "@handsontable/react";
 import "handsontable/dist/handsontable.full.css";
@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { addNewEntry, singleEnties } from "./config/config";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
+import AddIcon from "@mui/icons-material/Add";
 import Swal from "sweetalert2";
 import { Button } from "@mui/material";
 
@@ -15,6 +16,7 @@ const ExcelEditor = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = location?.state;
+  const [row, setRow] = useState(50);
 
   const hotTableComponent = useRef(null);
   const handleBack = () => {
@@ -50,6 +52,10 @@ const ExcelEditor = () => {
       .then((response) => {
         if (response.status === 200) {
           const reversedData = reverseTransformData(response.data);
+          const DataLength = response.data.length;
+          if (DataLength > 50) {
+            setRow(DataLength);
+          }
           hot?.loadData(reversedData);
         } else {
           hot?.loadData([]);
@@ -59,25 +65,39 @@ const ExcelEditor = () => {
   }, [data]);
 
   const transformData = (dataArray, data) => {
-    return dataArray.map((row) => ({
-      id: uuidv4(),
-      createdBy: data._id,
-      month: moment().month() + 1,
-      date: row[0] ? row[0] : moment().format("DD-MM-YYYY"),
-      sarin: parseInt(row[1]) || 0,
-      sarinW: parseInt(row[2]) || 0,
-      inclu: parseInt(row[3]) || 0,
-      incluW: parseInt(row[4]) || 0,
-      markin: parseInt(row[5]) || 0,
-      aq: parseInt(row[6]) || 0,
-      fourp: parseInt(row[7]) || 0,
-      fourpNote: row[8] || "",
-      galaxy4p: parseInt(row[9]) || 0,
-      galaxy4pNote: row[10] || "",
-      recute: parseInt(row[11]) || 0,
-      recuteNote: row[12] || "",
-      ls: parseInt(row[13]) || 0,
-    }));
+    return dataArray
+      .filter(
+        (row) =>
+          row[1] !== "" &&
+          row[2] !== "" &&
+          row[3] !== "" &&
+          row[4] !== "" &&
+          row[5] !== "" &&
+          row[6] !== "" &&
+          row[7] !== "" &&
+          row[9] !== "" &&
+          row[11] !== "" &&
+          row[13] !== ""
+      )
+      .map((row) => ({
+        id: uuidv4(),
+        createdBy: data._id,
+        month: moment().month() + 1,
+        date: row[0] ? row[0] : moment().format("DD-MM-YYYY"),
+        sarin: parseInt(row[1]) || 0,
+        sarinW: parseInt(row[2]) || 0,
+        inclu: parseInt(row[3]) || 0,
+        incluW: parseInt(row[4]) || 0,
+        markin: parseInt(row[5]) || 0,
+        aq: parseInt(row[6]) || 0,
+        fourp: parseInt(row[7]) || 0,
+        fourpNote: row[8] || "",
+        galaxy4p: parseInt(row[9]) || 0,
+        galaxy4pNote: row[10] || "",
+        recute: parseInt(row[11]) || 0,
+        recuteNote: row[12] || "",
+        ls: parseInt(row[13]) || 0,
+      }));
   };
 
   const columnName = (colIndex) => {
@@ -121,8 +141,8 @@ const ExcelEditor = () => {
     data.forEach((row, rowIndex) => {
       columns.forEach((colIndex) => {
         const value = row[colIndex];
-        if (isNaN(value) || value === "") {
-          invalidEntries.push({ row: rowIndex + 1, col: colIndex + 1 }); // +1 to convert 0-based index to 1-based
+        if (isNaN(value)) {
+          invalidEntries.push({ row: rowIndex + 1, col: colIndex + 1 });
         }
       });
     });
@@ -153,7 +173,7 @@ const ExcelEditor = () => {
 
       invalidEntries.forEach(({ row, col }) => {
         errorMessage += `<li style="margin-bottom: 5px;">(Row ${row} - Column <strong>${columnName(
-          col
+          col - 1
         )}</strong>)</li>`;
       });
 
@@ -241,6 +261,18 @@ const ExcelEditor = () => {
             </Button>
             <Button
               className="h-10"
+              style={{ marginRight: "10px" }}
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => {
+                setRow(row + 5);
+              }}
+              color="primary"
+            >
+              ADD Row
+            </Button>
+            <Button
+              className="h-10"
               variant="contained"
               color="inherit"
               startIcon={<ArrowBackIcon />}
@@ -319,7 +351,7 @@ const ExcelEditor = () => {
           autoWrapRow={true}
           autoWrapCol={true}
           minCols={14}
-          minRows={50}
+          minRows={row}
           headerClassName="htbold"
           licenseKey="non-commercial-and-evaluation"
         />
